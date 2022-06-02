@@ -1,34 +1,5 @@
-version: '3'
-
 services:
-    db:
-      image: mariadb:10.2
-      environment:
-        - MYSQL_ROOT_PASSWORD=asdfkjhalsdfh
-        - MYSQL_DATABASE=atlas
-        - MYSQL_USER=borrmant
-        - MYSQL_PASSWORD_FILE=./.mysqlpw.txt
-      volumes:
-        - ../dockers/atlas/new/dump.sql:/docker-entrypoint-initdb.d/dump.sql
-
-    www:
-      build: .
-      depends_on:
-        - db
-      volumes:
-        - ../dockers/atlas/new/tcr_structure_database.tar.gz:/var/www/html/web/tables/tcr_structure_database.tar.gz
-        - ./.mysqlpw.txt:/run/secrets/atlas_db_user_passwd:ro
-      labels:
-        - traefik.backend=whoami
-        - traefik.frontend.rule=PathPrefixStrip:/
-        - traefik.port=80
-        - traefik.enable=true
-
-    traefik:
-      image: traefik
-      command: -c /dev/null --api --docker --docker.domain=docker.localhost #--logLevel=DEBUG
-      volumes:
-        - /var/run/docker.sock:/var/run/docker.sock
-      ports:
-        - 80:80
-        - 8080:8080
+  www:
+    build: .
+    ports:
+      - 8080:80
