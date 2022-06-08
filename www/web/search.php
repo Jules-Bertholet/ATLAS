@@ -31,7 +31,7 @@
                     <li class="active"><a href="search.php">Search</a></li>
                     <li><a href="downloads.php">Downloads</a></li>
                     <li><a href="contact.html">Contact</a></li>
-                    <li><a href="https://github.com/weng-lab/ATLAS">Github</a></li>
+                    <li><a href="https://github.com/piercelab/ATLAS">Github</a></li>
                     <li><a href="help.php">Help</a></li>
                 </ul>
             </div>
