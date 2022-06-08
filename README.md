@@ -1,4 +1,4 @@
-<img src="www/web/graphical_abstract.png" alt="ATLAS">
+<img src="www/graphical_abstract.png" alt="ATLAS">
 
 The ATLAS (Altered TCR Ligand Affinities and Structures) database is a manually curated repository containing the binding affinities for wild-type and mutant T cell receptors (TCRs) and their antigens, peptides presented by the major histocompatibility complex (MHC). The database links experimentally measured binding affinities with the corresponding three dimensional structures for TCR-pMHC complexes.
 
