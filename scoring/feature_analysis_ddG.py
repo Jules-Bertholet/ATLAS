@@ -2,11 +2,10 @@
 
 import argparse
 
+import linear_reg_functions as lrf
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
-
-import linear_reg_functions as lrf
 
 parser = argparse.ArgumentParser(
     description="Run LOCOCV on 2^8 feature combinations and record correlations between predicted"

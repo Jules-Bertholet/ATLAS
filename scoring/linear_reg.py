@@ -2,11 +2,10 @@
 
 import argparse
 
+import linear_reg_functions as lrf
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
-
-import linear_reg_functions as lrf
 
 parser = argparse.ArgumentParser(
     description="Perform multilinear regression on ATLAS data with Rosetta energy terms"

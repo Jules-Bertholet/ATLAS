@@ -4,11 +4,10 @@
 import argparse
 import re
 
+import linear_reg_functions as lrf
 import matplotlib.pyplot as plt
 import numpy as np
 from sklearn import linear_model
-
-import linear_reg_functions as lrf
 
 parser = argparse.ArgumentParser(
     description="Perform multilinear regression and simple LOOCV on ATLAS data with Rosetta energy terms"

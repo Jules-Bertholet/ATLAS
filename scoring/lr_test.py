@@ -1,11 +1,10 @@
 #!/usr/bin/env python
 
+import linear_reg_functions as lrf
 import matplotlib.pyplot as plt
 import numpy as np
 import statsmodels.api as sm
 from sklearn import linear_model
-
-import linear_reg_functions as lrf
 
 
 def computeThetaAnalytically(m, y):
