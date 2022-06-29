@@ -50,9 +50,9 @@ def score(pdb, weights, label):
     Score PDB complex using Rosetta3 scoring function
     """
     score_cmd = [
-        args.ros_path + "rosetta_source/bin/score.linuxgccrelease",
+        os.path.join(args.ros_path, "source/bin/score.static.linuxgccrelease"),
         "-database",
-        args.ros_path + "rosetta_database/",
+        os.path.join(args.ros_path, "database"),
         "-s",
         pdb,
         "-out:file:scorefile",

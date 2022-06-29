@@ -97,9 +97,9 @@ def fixbb(pdb, resfile, label):
     if not os.path.exists("design_structures"):
         os.makedirs("design_structures")
     fixbb_cmd = [
-        args.ros_path + "rosetta_source/bin/fixbb.linuxgccrelease",
+        os.path.join(args.ros_path, "source/bin/fixbb.static.linuxgccrelease"),
         "-database",
-        args.ros_path + "rosetta_database/",
+        os.path.join(args.ros_path, "database"),
         "-s",
         pdb,
         "-resfile",
