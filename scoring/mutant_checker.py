@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import os
 
 import pandas as pd
 
@@ -53,7 +54,7 @@ def mutant_check(mut_str, pdb, p, chain_str=False):
             return 0
 
     for i in range(len(muts)):
-        PDB_f = open(p + "/" + pdb + ".pdb", "r")
+        PDB_f = open(os.path.join(p, pdb + ".pdb"), "r")
         found_pos = False
         for line in PDB_f:
             splitline = line.split()

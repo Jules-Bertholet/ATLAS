@@ -134,13 +134,16 @@ def main():
         # Check if we need to use designed structure
         if pd.notnull(row["true_PDB"]):
             true_pdb = str(row["true_PDB"])
+            true_pdb_path = os.path.join(
+                args.struct_path, "true_pdb", true_pdb + ".pdb"
+            )
             # Score TCR-pMHC
-            score(args.struct_path + "true_pdb/" + true_pdb + ".pdb", args.w, "COM")
+            score(true_pdb_path, args.w, "COM")
             # Score TCR
-            isolate(args.struct_path + "true_pdb/" + true_pdb + ".pdb", "TCR")
+            isolate(true_pdb_path, "TCR")
             score("TCR.pdb", args.w, "TCR")
             # Score pMHC
-            isolate(args.struct_path + "true_pdb/" + true_pdb + ".pdb", "pMHC")
+            isolate(true_pdb_path, "pMHC")
             score("pMHC.pdb", args.w, "pMHC")
             # Calculate dG bind
             dG_scores = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")
@@ -158,9 +161,9 @@ def main():
         elif pd.isnull(row["true_PDB"]):
             # Use backrub models?
             if args.b:
-                designed_pdb_folder = "backrub_pdb/"
+                designed_pdb_folder = "backrub_pdb"
             else:
-                designed_pdb_folder = "designed_pdb/"
+                designed_pdb_folder = "designed_pdb"
 
             # Get designed PDB file
             template_PDB = str(row["template_PDB"])
@@ -187,15 +190,16 @@ def main():
             PDB_f = "_".join(
                 [template_PDB, MHC_mut, MHC_mut_chain, TCR_mut, TCR_mut_chain, PEP_mut]
             )
-            # Score TCR-pMHC
-            score(
-                args.struct_path + designed_pdb_folder + PDB_f + ".pdb", args.w, "COM"
+            PDB_f_path = os.path.join(
+                args.struct_path, designed_pdb_folder, PDB_f + ".pdb"
             )
+            # Score TCR-pMHC
+            score(PDB_f_path, args.w, "COM")
             # Score TCR
-            isolate(args.struct_path + designed_pdb_folder + PDB_f + ".pdb", "TCR")
+            isolate(PDB_f_path, "TCR")
             score("TCR.pdb", args.w, "TCR")
             # Score pMHC
-            isolate(args.struct_path + designed_pdb_folder + PDB_f + ".pdb", "pMHC")
+            isolate(PDB_f_path, "pMHC")
             score("pMHC.pdb", args.w, "pMHC")
             # Calculate dG bind
             dG_scores = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")

@@ -207,13 +207,14 @@ def main():
         if 0:
             if pd.notnull(row["true_PDB"]):
                 true_pdb = str(row["true_PDB"])
+                true_pdb_path = os.path.join(args.struct_path, true_pdb + ".pdb")
                 # Score TCR-pMHC
-                score(args.struct_path + true_pdb + ".pdb", "COM")
+                score(true_pdb_path, "COM")
                 # Score TCR
-                isolate(args.struct_path + true_pdb + ".pdb", "TCR")
+                isolate(true_pdb_path, "TCR")
                 score("TCR.pdb", "TCR")
                 # Score pMHC
-                isolate(args.struct_path + true_pdb + ".pdb", "pMHC")
+                isolate(true_pdb_path, "pMHC")
                 score("pMHC.pdb", "pMHC")
                 # Calculate dG bind
                 dG_bind_score12, score12 = dG_bind(
@@ -246,7 +247,7 @@ def main():
             )
             label = "_" + re.sub("\s+", "", label)
             # Design mutations by fixbb app and save structure
-            fixbb(args.struct_path + template_pdb + ".pdb", "resfile", label)
+            fixbb(os.path.join(args.struct_path, template_pdb + ".pdb"), "resfile", label)
             # Remove temp files
             os.remove("resfile")
             os.remove("score" + label + ".sc")

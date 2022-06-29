@@ -145,12 +145,15 @@ def main():
             # Get pivot_residues for CDR loops in absolute residue numbers
             # absolute residue numbering : 1 to total residues in PDB file
             pivot_residues = get_pivot_residues(
-                args.struct_path + "true_pdb/" + template_pdb + ".pdb", args.cdr_seqs
+                os.path.join(args.struct_path, "true_pdb", template_pdb + ".pdb"),
+                args.cdr_seqs,
             )
 
             # Design mutations by backrub app and save structure
             backrub(
-                args.struct_path + "designed_pdb/" + template_pdb + label + ".pdb",
+                os.path.join(
+                    args.struct_path, "designed_pdb", template_pdb + label + ".pdb"
+                ),
                 label,
                 pivot_residues,
             )

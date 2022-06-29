@@ -117,13 +117,16 @@ def main():
         # Check if we need to use designed structure
         if pd.notnull(row["true_PDB"]):
             true_pdb = str(row["true_PDB"])
+            true_pdb_path = os.path.join(
+                args.struct_path, "true_pdb", true_pdb + ".pdb"
+            )
             # Score TCR-pMHC
-            score(args.struct_path + "true_pdb/" + true_pdb + ".pdb", "COM")
+            score(true_pdb_path, "COM")
             # Score TCR
-            isolate(args.struct_path + "true_pdb/" + true_pdb + ".pdb", "TCR")
+            isolate(true_pdb_path, "TCR")
             score("TCR.pdb", "TCR")
             # Score pMHC
-            isolate(args.struct_path + "true_pdb/" + true_pdb + ".pdb", "pMHC")
+            isolate(true_pdb_path, "pMHC")
             score("pMHC.pdb", "pMHC")
             # Calculate dG bind
             dG_score = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")
@@ -163,13 +166,14 @@ def main():
             PDB_f = "_".join(
                 [template_PDB, MHC_mut, MHC_mut_chain, TCR_mut, TCR_mut_chain, PEP_mut]
             )
+            PDB_f_path = os.path.join(args.struct_path, "designed_pdb", PDB_f + ".pdb")
             # Score TCR-pMHC
-            score(args.struct_path + "designed_pdb/" + PDB_f + ".pdb", "COM")
+            score(PDB_f_path, "COM")
             # Score TCR
-            isolate(args.struct_path + "designed_pdb/" + PDB_f + ".pdb", "TCR")
+            isolate(PDB_f_path, "TCR")
             score("TCR.pdb", "TCR")
             # Score pMHC
-            isolate(args.struct_path + "designed_pdb/" + PDB_f + ".pdb", "pMHC")
+            isolate(PDB_f_path, "pMHC")
             score("pMHC.pdb", "pMHC")
             # Calculate dG bind
             dG_score = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")

@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 
 import argparse
+import os
 
 import linear_reg_functions as lrf
 import matplotlib.pyplot as plt
@@ -49,7 +50,7 @@ def plot_experiment_vs_predict(ddGs, predictions, subset_features, r):
     ax.set_xlabel(r"Experimentally measured $\Delta\Delta$G (kcal/mol)", fontsize=10)
     ax.set_ylabel(r"Predicted $\Delta\Delta$G (kcal/mol)", fontsize=10)
     plt.tight_layout()
-    plt.savefig("subset_ddG_plots/" + subset_features + ".png", dpi=300)
+    plt.savefig(os.path.join("subset_ddG_plots", subset_features + ".png"), dpi=300)
     plt.close()
     return
 

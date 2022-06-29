@@ -32,7 +32,7 @@ def get_pose(pdb, is_temp):
     if is_temp:
         toolbox.cleanATOM("../../structures/designed_pdb/" + pdb)
         os.rename(
-            "../../structures/designed_pdb/" + pdb[:-4] + ".clean.pdb",
+            os.path.join("../../structures/designed_pdb", pdb[:-4] + ".clean.pdb"),
             pdb[:-4] + ".clean.pdb",
         )
         pose = pose_from_pdb(pdb[:-4] + ".clean.pdb")
@@ -40,7 +40,7 @@ def get_pose(pdb, is_temp):
     else:
         toolbox.cleanATOM("../../structures/true_pdb/" + pdb)
         os.rename(
-            "../../structures/true_pdb/" + pdb[:-4] + ".clean.pdb",
+            os.path.join("../../structures/true_pdb", pdb[:-4] + ".clean.pdb"),
             pdb[:-4] + ".clean.pdb",
         )
         pose = pose_from_pdb(pdb[:-4] + ".clean.pdb")

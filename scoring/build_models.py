@@ -216,13 +216,14 @@ def main():
         # Check if we need to model entry
         if pd.notnull(row["true_PDB"]):
             true_pdb = str(row["true_PDB"])
+            true_pdb_path = os.path.join(args.struct_path, true_pdb + ".pdb")
             # Score TCR-pMHC
-            score(args.struct_path + true_pdb + ".pdb", args.w, "COM")
+            score(true_pdb_path, args.w, "COM")
             # Score TCR
-            isolate(args.struct_path + true_pdb + ".pdb", "TCR")
+            isolate(true_pdb_path, "TCR")
             score("TCR.pdb", args.w, "TCR")
             # Score pMHC
-            isolate(args.struct_path + true_pdb + ".pdb", "pMHC")
+            isolate(true_pdb_path, "pMHC")
             score("pMHC.pdb", args.w, "pMHC")
             # Calculate dG bind
             dG_scores = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")
@@ -253,19 +254,26 @@ def main():
             )
             label = "_" + re.sub("\s+", "", label)
             # Design mutations by fixbb app and save structure
-            fixbb(args.struct_path + template_pdb + ".pdb", "resfile", label)
+            fixbb(
+                os.path.join(args.struct_path, template_pdb + ".pdb"), "resfile", label
+            )
             # Remove temp files
             os.remove("resfile")
             os.remove("score" + label + ".sc")
             # Score TCR-pMHC
+            design_template_pdb_path = os.path.join(
+                "design_structures", template_pdb + label + "_0001.pdb"
+            )
             score(
-                "design_structures/" + template_pdb + label + "_0001.pdb", args.w, "COM"
+                design_template_pdb_path,
+                args.w,
+                "COM",
             )
             # Score TCR
-            isolate("design_structures/" + template_pdb + label + "_0001.pdb", "TCR")
+            isolate(design_template_pdb_path, "TCR")
             score("TCR.pdb", args.w, "TCR")
             # Score pMHC
-            isolate("design_structures/" + template_pdb + label + "_0001.pdb", "pMHC")
+            isolate(design_template_pdb_path, "pMHC")
             score("pMHC.pdb", args.w, "pMHC")
             # Calculate dG bind
             dG_scores = dG_bind("COM_score.sc", "TCR_score.sc", "pMHC_score.sc")
