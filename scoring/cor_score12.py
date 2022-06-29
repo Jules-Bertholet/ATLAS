@@ -32,7 +32,7 @@ def plot_experiment_vs_predict(dGs, predictions, r):
 
 
 def main():
-    IN = open("energy_table_score12.txt", "r")
+    IN = open("energy_table_score12.tsv", "r")
     IN.readline()
     exp = []
     pred = []

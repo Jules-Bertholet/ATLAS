@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "-f",
-    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.txt)",
+    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.tsv)",
     type=str,
     dest="f",
     required=True,
@@ -210,9 +210,9 @@ def main():
             os.remove("pMHC.pdb")
     # Write to file
     if args.b:
-        df.to_csv("energy_table_backrub.txt", sep="\t", index=False)
+        df.to_csv("energy_table_backrub.tsv", sep="\t", index=False)
     else:
-        df.to_csv("energy_table.txt", sep="\t", index=False)
+        df.to_csv("energy_table.tsv", sep="\t", index=False)
 
 
 if __name__ == "__main__":

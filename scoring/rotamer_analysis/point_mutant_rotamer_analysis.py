@@ -49,7 +49,7 @@ def get_pose(pdb, is_temp):
 
 def main():
     # Output file
-    OUT = open("point_mutant_rotamer_analysis.out", "w")
+    OUT = open("point_mutant_rotamer_analysis.out.tsv", "w")
     OUT.write(
         "Temp_PDB\tTrue_PDB\tDesigned_Rotamers_States\tTrue_Rotamer_States\tDesigned_Chi\tTrue_Chi\n"
     )

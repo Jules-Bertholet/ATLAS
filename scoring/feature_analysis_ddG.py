@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "-i",
-    help="ddG formatted data table (energy_table_ddG.txt)",
+    help="ddG formatted data table (energy_table_ddG.tsv)",
     type=str,
     dest="infile",
     required=True,

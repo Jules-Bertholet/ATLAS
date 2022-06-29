@@ -1,4 +1,4 @@
-df <- read.table("energy_table.txt", header = TRUE, sep = "\t", na.strings = "\\N")
+df <- read.table("energy_table.tsv", header = TRUE, sep = "\t", na.strings = "\\N")
 df$DeltaG_kcal_per_mol[is.na(df$DeltaG_kcal_per_mol)] <- -5.05
 df$DeltaG_kcal_per_mol[df$DeltaG_kcal_per_mol > -5.05] <- -5.05
 

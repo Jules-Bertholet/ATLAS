@@ -8,7 +8,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "-f",
-    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.txt)",
+    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.tsv)",
     type=str,
     dest="f",
     required=True,
@@ -20,7 +20,7 @@ def main():
     counter = 0
     # Read Mutants table into dataframe
     df = pd.read_csv(args.f, sep="\t")
-    OUT = open("count_RMSD_validation_set.out", "w")
+    OUT = open("count_RMSD_validation_set.out.tsv", "w")
     OUT.write(
         "\t".join(
             [

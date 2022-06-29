@@ -280,7 +280,7 @@ def main():
             os.remove("pMHC.pdb")
 
     # Write to file
-    df.to_csv("test_table.txt", sep="\t", index=False)
+    df.to_csv("test_table.csv", sep="\t", index=False)
 
 
 if __name__ == "__main__":

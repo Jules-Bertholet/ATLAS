@@ -13,7 +13,7 @@ parser = argparse.ArgumentParser(
     description="Perform multilinear regression and simple LOOCV on ATLAS data with Rosetta energy terms"
 )
 parser.add_argument(
-    "-in", help="energy_table.txt", type=str, dest="infile", required=True
+    "-in", help="energy_table.tsv", type=str, dest="infile", required=True
 )
 args = parser.parse_args()
 

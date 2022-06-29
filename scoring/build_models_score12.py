@@ -271,7 +271,7 @@ def main():
             # os.remove('pMHC.pdb')
 
     # Write to file
-    df.to_csv("score12_table.txt", sep="\t", index=False)
+    df.to_csv("score12_table.tsv", sep="\t", index=False)
 
 
 if __name__ == "__main__":

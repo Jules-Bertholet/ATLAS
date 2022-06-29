@@ -14,7 +14,7 @@ parser = argparse.ArgumentParser(
 )
 parser.add_argument(
     "-f",
-    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.txt)",
+    help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.tsv)",
     type=str,
     dest="f",
     required=True,
@@ -35,7 +35,7 @@ parser.add_argument(
 )
 parser.add_argument(
     "-c",
-    help="Brian Pierce's CDR sequences data table (CDR_seqs.txt)",
+    help="Brian Pierce's CDR sequences data table (CDR_seqs.tsv)",
     type=str,
     dest="cdr_seqs",
     required=True,

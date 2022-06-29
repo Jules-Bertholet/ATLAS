@@ -111,7 +111,7 @@ print("\nTesting Solvation")
 # Linear Regression to obtain coefficients and p-vals
 ######################################################
 # Open data table
-IN = open("energy_table.txt", "r")
+IN = open("energy_table.tsv", "r")
 # Column indices for energy terms
 feature_cols = [37, 40, 41, 42, 43, 44, 45, 46]
 pdb_cols = [16, 21]
