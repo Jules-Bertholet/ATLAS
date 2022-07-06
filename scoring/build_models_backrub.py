@@ -17,28 +17,32 @@ parser.add_argument(
     help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.tsv)",
     type=str,
     dest="f",
-    required=True,
+    required=False,
+    default="../www/tables/ATLAS.tsv"
 )
 parser.add_argument(
     "-r",
     help="path to Rosetta3 (ex. /home/borrmant/Research/TCR/rosetta/rosetta-3.5/)",
     type=str,
     dest="ros_path",
-    required=True,
+    required=False,
+    default="../rosetta/main"
 )
 parser.add_argument(
     "-s",
     help="path to Brian Pierce's TCR-pMHC structure database (ex. /home/tb37w/ATLAS/structures/)",
     type=str,
     dest="struct_path",
-    required=True,
+    required=False,
+    default="../www/structures"
 )
 parser.add_argument(
     "-c",
     help="Brian Pierce's CDR sequences data table (CDR_seqs.tsv)",
     type=str,
     dest="cdr_seqs",
-    required=True,
+    required=False,
+    default="./CDR_seqs.tsv"
 )
 args = parser.parse_args()
 
@@ -87,12 +91,8 @@ def backrub(pdb, label, pivot_residues):
     backrub_cmd = (
         [
             "bsub",
-            "-q",
-            "short",
             "-W",
             "60",
-            "-R",
-            "rusage[mem=5000]",
             "-o",
             label + ".out",
             "-e",
@@ -115,7 +115,7 @@ def backrub(pdb, label, pivot_residues):
             "-ex3",
             "-overwrite",
             "-out:path:pdb",
-            "../structures/backrub_pdb",
+            os.path.join(args.struct_path, "backrub_pdb"),
         ]
     )
     process = subprocess.Popen(backrub_cmd)
@@ -140,7 +140,7 @@ def main():
                 map(str, [MHC_mut, MHC_mut_chain, TCR_mut, TCR_mut_chain, PEP_mut])
             )
             label = "_" + re.sub("\s+", "", label)
-            label = re.sub("\|", ".", label)
+            label =  ".", label.replace("|", ".")
 
             # Get pivot_residues for CDR loops in absolute residue numbers
             # absolute residue numbering : 1 to total residues in PDB file

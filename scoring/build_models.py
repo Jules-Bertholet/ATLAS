@@ -16,30 +16,38 @@ parser.add_argument(
     help="ATLAS Mutants tab-delimited file (ex. Mutants_052915.tsv)",
     type=str,
     dest="f",
-    required=True,
+    required=False,
+    default="../www/tables/ATLAS.tsv"
 )
 parser.add_argument(
     "-w",
     help="Weights file for scoring with Rosetta (ex. weights_1.wts)",
     type=str,
     dest="w",
-    required=True,
+    required=False,
+    default="./weights_1.wts"
 )
 parser.add_argument(
     "-r",
     help="path to Rosetta3 (ex. /home/borrmant/Research/TCR/rosetta/rosetta-3.5/)",
     type=str,
     dest="ros_path",
-    required=True,
+    required=False,
+    default="../rosetta/main"
 )
 parser.add_argument(
     "-s",
     help="path to Brian Pierce's TCR-pMHC structure database (ex. /home/borrmant/Research/TCR/tcr_structure_database/all/)",
     type=str,
     dest="struct_path",
-    required=True,
+    required=False,
+    default="../www/structures"
 )
 args = parser.parse_args()
+
+designed_path = os.path.join(args.struct_path, "designed_pdb")
+if not os.path.exists(designed_path):
+    os.makedirs(designed_path)
 
 
 def score(pdb, weights, label):
@@ -75,7 +83,7 @@ def isolate(pdb, component):
         OUT = open(component + ".pdb", "w")
         for line in IN:
             row = line.split()
-            if row[0] == "ATOM":
+            if len(row) > 0 and row[0] == "ATOM":
                 if row[4] == "D" or row[4] == "E":
                     OUT.write(line)
         IN.close()
@@ -85,7 +93,7 @@ def isolate(pdb, component):
         OUT = open(component + ".pdb", "w")
         for line in IN:
             row = line.split()
-            if row[0] == "ATOM":
+            if len(row) > 0 and row[0] == "ATOM":
                 if row[4] == "A" or row[4] == "B" or row[4] == "C":
                     OUT.write(line)
         IN.close()
@@ -178,8 +186,6 @@ def fixbb(pdb, resfile, label):
     """
     Design mutations using Rosetta's fixed backbone application
     """
-    if not os.path.exists("design_structures"):
-        os.makedirs("design_structures")
     fixbb_cmd = [
         os.path.join(args.ros_path, "source/bin/fixbb.static.linuxgccrelease"),
         "-database",
@@ -197,7 +203,7 @@ def fixbb(pdb, resfile, label):
         "-ex3",
         "-overwrite",
         "-out:path:pdb",
-        "design_structures",
+        designed_path,
     ]
     process = subprocess.Popen(fixbb_cmd)
     process.wait()
@@ -216,7 +222,7 @@ def main():
         # Check if we need to model entry
         if pd.notnull(row["true_PDB"]):
             true_pdb = str(row["true_PDB"])
-            true_pdb_path = os.path.join(args.struct_path, true_pdb + ".pdb")
+            true_pdb_path = os.path.join(args.struct_path, "true_pdb", true_pdb + ".pdb")
             # Score TCR-pMHC
             score(true_pdb_path, args.w, "COM")
             # Score TCR
@@ -255,15 +261,17 @@ def main():
             label = "_" + re.sub("\s+", "", label)
             # Design mutations by fixbb app and save structure
             fixbb(
-                os.path.join(args.struct_path, template_pdb + ".pdb"), "resfile", label
+                os.path.join(args.struct_path, "true_pdb", template_pdb + ".pdb"), "resfile", label
             )
             # Remove temp files
             os.remove("resfile")
             os.remove("score" + label + ".sc")
             # Score TCR-pMHC
+            old_design_template_pdb_path = os.path.join(designed_path, template_pdb + label + "_0001.pdb")
             design_template_pdb_path = os.path.join(
-                "design_structures", template_pdb + label + "_0001.pdb"
+               designed_path, template_pdb + label.replace("|", ".") + ".pdb"
             )
+            os.rename(old_design_template_pdb_path,design_template_pdb_path)
             score(
                 design_template_pdb_path,
                 args.w,

@@ -16,28 +16,32 @@ parser.add_argument(
     help="ATLAS Mutants tab-delimited file (ex. Mutants_052016.tsv)",
     type=str,
     dest="f",
-    required=True,
+    required=False,
+    default="../www/tables/ATLAS.tsv"
 )
 parser.add_argument(
     "-w",
     help="Weights file for scoring with Rosetta (ex. weights_1.wts)",
     type=str,
     dest="w",
-    required=True,
+    required=False,
+    default="./weights_1.wts"
 )
 parser.add_argument(
     "-r",
     help="path to Rosetta3 (ex. /home/borrmant/Research/TCR/rosetta/rosetta-3.5/)",
     type=str,
     dest="ros_path",
-    required=True,
+    required=False,
+    default="../rosetta/main"
 )
 parser.add_argument(
     "-s",
     help="path to Brian Pierce's TCR-pMHC structure database (ex. /home/borrmant/Research/TCR/tcr_structure_database/all/)",
     type=str,
     dest="struct_path",
-    required=True,
+    required=False,
+    default="../www/structures"
 )
 parser.add_argument(
     "-b", help="use backrub models (ex. True)", type=bool, default=False
@@ -78,7 +82,7 @@ def isolate(pdb, component):
         OUT = open(component + ".pdb", "w")
         for line in IN:
             row = line.split()
-            if row[0] == "ATOM":
+            if len(row) > 0 and row[0] == "ATOM":
                 if row[4] == "D" or row[4] == "E":
                     OUT.write(line)
         IN.close()
@@ -88,7 +92,7 @@ def isolate(pdb, component):
         OUT = open(component + ".pdb", "w")
         for line in IN:
             row = line.split()
-            if row[0] == "ATOM":
+            if len(row) > 0 and row[0] == "ATOM":
                 if row[4] == "A" or row[4] == "B" or row[4] == "C":
                     OUT.write(line)
         IN.close()
@@ -135,7 +139,7 @@ def main():
         if pd.notnull(row["true_PDB"]):
             true_pdb = str(row["true_PDB"])
             true_pdb_path = os.path.join(
-                args.struct_path, "true_pdb", true_pdb + ".pdb"
+                args.struct_path, "true_pdb", true_pdb.replace("|", ".") + ".pdb"
             )
             # Score TCR-pMHC
             score(true_pdb_path, args.w, "COM")
@@ -167,31 +171,31 @@ def main():
 
             # Get designed PDB file
             template_PDB = str(row["template_PDB"])
-            MHC_mut = "".join(str(row["MHC_mut"]).replace("|", ".").split())
+            MHC_mut = "".join(str(row["MHC_mut"]).split())
             if "A" not in str(row["MHC_mut_chain"]) and "B" not in str(
                 row["MHC_mut_chain"]
             ):
                 MHC_mut_chain = "nan"
             else:
                 MHC_mut_chain = "".join(
-                    str(row["MHC_mut_chain"]).replace("|", ".").split()
+                    str(row["MHC_mut_chain"]).split()
                 )
 
-            TCR_mut = "".join(str(row["TCR_mut"]).replace("|", ".").split())
+            TCR_mut = "".join(str(row["TCR_mut"]).split())
             if "A" not in str(row["TCR_mut_chain"]) and "B" not in str(
                 row["TCR_mut_chain"]
             ):
                 TCR_mut_chain = "nan"
             else:
                 TCR_mut_chain = "".join(
-                    str(row["TCR_mut_chain"]).replace("|", ".").split()
+                    str(row["TCR_mut_chain"]).split()
                 )
-            PEP_mut = "".join(str(row["PEP_mut"]).replace("|", ".").split())
+            PEP_mut = "".join(str(row["PEP_mut"]).split())
             PDB_f = "_".join(
                 [template_PDB, MHC_mut, MHC_mut_chain, TCR_mut, TCR_mut_chain, PEP_mut]
             )
             PDB_f_path = os.path.join(
-                args.struct_path, designed_pdb_folder, PDB_f + ".pdb"
+                args.struct_path, designed_pdb_folder, PDB_f.replace("|", ".") + ".pdb"
             )
             # Score TCR-pMHC
             score(PDB_f_path, args.w, "COM")

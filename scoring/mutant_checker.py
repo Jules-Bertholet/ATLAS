@@ -8,13 +8,21 @@ import pandas as pd
 parser = argparse.ArgumentParser(
     description="Checks and validates mutant information for ATLAS table"
 )
-parser.add_argument("-f", help="ATLAS table", type=str, dest="f", required=True)
+parser.add_argument(
+    "-f",
+    help="ATLAS table",
+    type=str,
+    dest="f",
+    required=False,
+    default="../www/tables/ATLAS.tsv",
+)
 parser.add_argument(
     "-p",
     help="Path to true_pdb directory (ex. structures/true_pdb/)",
     type=str,
     dest="p",
-    required=True,
+    required=False,
+    default="../www/structures/true_pdb",
 )
 args = parser.parse_args()
 
