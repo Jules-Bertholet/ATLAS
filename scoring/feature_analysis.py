@@ -16,10 +16,16 @@ parser.add_argument(
     help="data table output by energy_table.py",
     type=str,
     dest="infile",
-    required=True,
+    required=False,
+    default="energy_table_backrub.tsv",
 )
 parser.add_argument(
-    "-o", help="output table with stats", type=str, dest="outfile", required=True
+    "-o",
+    help="output table with stats",
+    type=str,
+    dest="outfile",
+    required=False,
+    default="feature_analysis_backrub.tsv",
 )
 args = parser.parse_args()
 

@@ -15,7 +15,8 @@ parser.add_argument(
     help="data table output by energy_table.py",
     type=str,
     dest="infile",
-    required=True,
+    required=False,
+    default="energy_table_backrub.tsv"
 )
 args = parser.parse_args()
 

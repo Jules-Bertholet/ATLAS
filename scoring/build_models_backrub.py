@@ -86,8 +86,9 @@ def backrub(pdb, label, pivot_residues):
     """
     Design mutations using Rosetta's backrub application
     """
-    if not os.path.exists("../structures/backrub_pdb"):
-        os.makedirs("../structures/backrub_pdb")
+    path = os.path.join(args.struct_path, "backrub_pdb")
+    if not os.path.exists(path):
+        os.makedirs(path)
     backrub_cmd = (
         [
             "bsub",
@@ -115,7 +116,7 @@ def backrub(pdb, label, pivot_residues):
             "-ex3",
             "-overwrite",
             "-out:path:pdb",
-            os.path.join(args.struct_path, "backrub_pdb"),
+            path,
         ]
     )
     process = subprocess.Popen(backrub_cmd)
@@ -140,7 +141,7 @@ def main():
                 map(str, [MHC_mut, MHC_mut_chain, TCR_mut, TCR_mut_chain, PEP_mut])
             )
             label = "_" + re.sub("\s+", "", label)
-            label =  ".", label.replace("|", ".")
+            label = label.replace("|", ".")
 
             # Get pivot_residues for CDR loops in absolute residue numbers
             # absolute residue numbering : 1 to total residues in PDB file
